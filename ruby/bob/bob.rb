@@ -16,7 +16,7 @@ private
   end
 
   def shout?(sentence)
-    sentence.upcase == sentence && sentence.downcase != sentence
+    sentence =~ /[[:upper:]]+/ && sentence !~ /[[:lower:]]+/
   end
 
   def question?(sentence)
