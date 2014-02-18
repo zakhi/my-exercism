@@ -2,20 +2,12 @@ module Year
   extend self
 
   def leap?(year)
-    divisible_by_four?(year) && (!round_century?(year) || divisible_by_400?(year))
+    divisible_by?(year, 4) && (!divisible_by?(year, 100) || divisible_by?(year, 400))
   end
 
 private
 
-  def divisible_by_four?(year)
-    year % 4 == 0
-  end
-
-  def round_century?(year)
-    year % 100 == 0
-  end
-
-  def divisible_by_400?(year)
-    year % 400 == 0
+  def divisible_by?(year, divisor)
+    year % divisor == 0
   end
 end
