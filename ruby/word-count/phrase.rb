@@ -1,6 +1,6 @@
 class Phrase
   def initialize(sentence)
-    @words = sentence.split /[^A-Za-z\d'']+/
+    @words = sentence.split /[^[:alpha:]\d'']+/
   end
 
   def word_count
