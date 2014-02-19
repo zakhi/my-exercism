@@ -9,15 +9,15 @@ class Scrabble
   end
 
   def score
-    score_hash.reduce(0) do |score, (letter, count)|
-      score + count * value_of(letter)
+    score_hash.reduce(0) do |sum, (letter, count)|
+      sum + count * value_of(letter)
     end
   end
 
 private 
 
-  def self.create_letter_values(array)
-    array.each_with_object({}) do |(letters, value), hash|
+  def self.create_letter_values(values_array)
+    values_array.each_with_object({}) do |(letters, value), hash|
       letters.chars.each { |l| hash[l] = value }
     end
   end
