@@ -9,7 +9,7 @@ class SpaceAge
   end
 
   def method_missing(method, *args, &block)
-    if method.to_s =~ /on_(.+)/ && RELATIVE_PERIOD[$1.to_sym]
+    if method.to_s =~ /on_(.+)/ && args.empty? && RELATIVE_PERIOD[$1.to_sym]
       on_planet($1.to_sym)
     else
       super
