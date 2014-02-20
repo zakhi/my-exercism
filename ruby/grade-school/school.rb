@@ -2,6 +2,7 @@ class School
 
   def add(student, grade)
     students[grade] << student
+    self
   end
 
   def grade(grade_number)
