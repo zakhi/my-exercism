@@ -5,16 +5,25 @@ class Proverb
   end
 
   def to_s
-    sequence = @objects[1..-1].zip(@objects).inject("") do |string, (second, first)|
-      string + "For want of a #{first} the #{second} was lost.\n"
-    end
-    sequence + "And all for the want of a #{qualifier}#{@objects[0]}."
+    consequences + ending
   end
 
 private
 
-  def qualifier
-    @qualifier ? @qualifier + " " : ""
+  def consequences
+    object_pairs.map { |first, second| "For want of a #{first} the #{second} was lost.\n" }.join
   end
 
+  def ending
+    "And all for the want of a #{reason}."
+  end
+
+  def object_pairs
+    @objects.zip(@objects[1..-1])[0..-2]
+  end
+
+  def reason
+    (@qualifier ? "#{@qualifier} " : "") + "#{@objects[0]}"
+  end
+  
 end
