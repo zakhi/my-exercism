@@ -15,15 +15,15 @@ private
   end
 
   def ending
-    "And all for the want of a #{reason}."
+    "And all for the want of a #{qualifier}#{@objects[0]}."
   end
 
   def object_pairs
     @objects.zip(@objects[1..-1])[0..-2]
   end
 
-  def reason
-    (@qualifier ? "#{@qualifier} " : "") + "#{@objects[0]}"
+  def qualifier
+    @qualifier ? "#{@qualifier} " : ""
   end
   
 end
