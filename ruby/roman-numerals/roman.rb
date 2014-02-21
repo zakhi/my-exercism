@@ -7,29 +7,39 @@ module RomanNumerable
 private
 
   def thousands
-    "M" * (to_i / 1000 % 10)
+    "M" * digit_at(1000)
   end
 
   def hundreds
-    translate_digit to_i / 100 % 10, "C", "D", "M"
+    roman_hundreds.to_roman digit_at(100)
   end
 
   def tens
-    translate_digit to_i / 10 % 10, "X", "L", "C"
+    roman_tens.to_roman digit_at(10)
   end
 
   def ones
-    translate_digit to_i % 10, "I", "V", "X"
+    roman_ones.to_roman digit_at(1)
   end
 
-  def translate_digit(digit, ones, fives, tens)
-    case digit
-      when 1..3 then ones * digit
-      when 4 then ones + fives
-      when 5..8 then fives + ones * (digit - 5)
-      when 9 then ones + tens
+  def digit_at(magnitude)
+    to_i / magnitude % 10
+  end
+
+  RomanDigit = Struct.new(:one, :five, :ten) do
+    def to_roman(value)
+      case value
+        when 1..3 then one * value
+        when 4 then one + five
+        when 5..8 then five + one * (value - 5)
+        when 9 then one + ten
+      end
     end
   end
+
+  roman_hundreds = RomanDigit.new("C", "D", "M")
+  roman_tens     = RomanDigit.new("X", "L", "C")
+  roman_ones     = RomanDigit.new("I", "V", "X")
 
 end
 
