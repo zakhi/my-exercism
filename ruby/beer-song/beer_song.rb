@@ -1,7 +1,7 @@
 class BeerSong
 
   def verse(count)
-    Verse.new(count).to_s
+    Verse.new(count).sing
   end
 
   def verses(from, to)
@@ -17,36 +17,39 @@ class BeerSong
 private
 
   Verse = Struct.new(:count) do
-    def to_s
-      "#{first_part}#{second_part}"
+    def sing
+      first_part = "#{bottles_on_wall}, #{bottles}.\n".capitalize
+      "#{first_part}#{do_something}, #{bottles_on_wall}.\n"
     end
 
-    def first_part
-      "#{x_bottles} of beer on the wall, #{x_bottles} of beer.\n".capitalize
+    def bottles_on_wall
+      "#{bottles} on the wall"
     end
 
-    def second_part
-      if count == 0
-        "Go to the store and buy some more, 99 bottles of beer on the wall.\n"
+    def bottles
+      "#{x_bottles} of beer"
+    end
+
+    def do_something
+      if go_to_store?
+        self.count = 99
+        "Go to the store and buy some more"
       else
-        "Take #{one_bottle} down and pass it around, #{remaining_bottles} of beer on the wall.\n"
+        self.count -= 1
+        "Take #{one_bottle} down and pass it around"
       end
     end
 
-    def x_bottles
-      pluralize count, "bottle"
+    def go_to_store?
+      count == 0
     end
 
-    def remaining_bottles
-      pluralize (count - 1), "bottle"
+    def x_bottles
+      "#{count == 0 ? "no more" : count} bottle" + ("s" if count != 1).to_s
     end
 
     def one_bottle
-      count == 1 ? "it" : "one"
-    end
-
-    def pluralize(count, noun)
-      "#{count == 0 ? "no more" : count} #{noun}" + ("s" if count != 1).to_s
+      count == 0 ? "it" : "one"
     end
   end
 end
