@@ -2,8 +2,7 @@ class DNA
 
   def initialize(sequence)
     sequence.chars.each do |base|
-      raise ArgumentError unless counts.key?(base)
-      counts[base] += 1
+      counts[base] = count(base) + 1
     end
   end
 
