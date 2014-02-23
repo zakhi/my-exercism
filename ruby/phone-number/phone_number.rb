@@ -1,6 +1,7 @@
 class PhoneNumber
   def initialize(number)
-    @number = clean(number) || "0000000000"
+    @number = number
+    clean
   end
 
   def number
@@ -17,15 +18,26 @@ class PhoneNumber
 
 private 
 
-  def clean(number)
-    return nil unless number =~ /^[\d\s.\-\(\)]+$/
-    formatted = number.gsub(/\D/, '')
-    return formatted[1..-1] if formatted.length == 11 && formatted[0] == '1'
-    return nil if formatted.length != 10
-    formatted
+  def clean
+    remove_symbols
+    remove_prefix
+    validate
+  end
+
+  def remove_symbols
+    @number.gsub!(/[\s.()-]/, '')
+  end
+
+  def remove_prefix
+    @number.slice!(0) if @number =~ /^1\d{10}$/
+  end
+
+  def validate
+    @number = "0000000000" if @number !~ /^\d{10}$/
   end
 
   def parts
-    number.scan(/(...)(...)(....)/).flatten
+    @number.scan(/(...)(...)(....)/).flatten
   end
+
 end
