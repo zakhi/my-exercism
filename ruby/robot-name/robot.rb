@@ -10,15 +10,19 @@ class Robot
 private
 
   def generate
-    (Array.new(2) { random_letter } + Array.new(3) { random_digit }).join
+    random_letters + random_digits
   end
 
-  def random_letter
-    [*"A".."Z"].sample
+  def random_letters
+    random_string(2) { [*"A".."Z"].sample }
   end
 
-  def random_digit
-    [*0..9].sample
+  def random_digits
+    random_string(3) { [*0..9].sample }
+  end
+
+  def random_string(length, &block)
+    length.times.map(&block).join
   end
 
 end
