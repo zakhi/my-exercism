@@ -29,11 +29,11 @@ private
   end
 
   def remove_prefix
-    @number.slice!(0) if @number =~ /^1\d{10}$/
+    @number.slice!(0) if @number[/^1\d{10}$/]
   end
 
   def validate
-    @number = "0000000000" if @number !~ /^\d{10}$/
+    @number = "0000000000" unless @number[/^\d{10}$/]
   end
 
   def parts
