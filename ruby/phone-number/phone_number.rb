@@ -1,6 +1,6 @@
 class PhoneNumber
   def initialize(number)
-    @number = clean(number.clone) || "0000000000"
+    @number = clean(number) || "0000000000"
   end
 
   def number
@@ -8,20 +8,24 @@ class PhoneNumber
   end
 
   def area_code
-    number[0..2]
+    parts[0]
   end
 
   def to_s
-    "(%s) %s-%s" % [area_code, number[3..5], number[6..-1]]
+    "(%s) %s-%s" % parts
   end
 
 private 
 
   def clean(number)
     return nil unless number =~ /^[\d\s.\-\(\)]+$/
-    number.gsub!(/\D/, '')
-    return number[1..-1] if number.length == 11 && number[0] == '1'
-    return nil if number.length != 10
-    number
+    formatted = number.gsub(/\D/, '')
+    return formatted[1..-1] if formatted.length == 11 && formatted[0] == '1'
+    return nil if formatted.length != 10
+    formatted
+  end
+
+  def parts
+    number.scan(/(...)(...)(....)/).flatten
   end
 end
