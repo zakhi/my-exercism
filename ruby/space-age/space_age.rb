@@ -19,6 +19,6 @@ class SpaceAge
 private
 
   def earth_years
-    @seconds / 31557600.0
+    @earth_years ||= @seconds / 31557600.0
   end
 end
