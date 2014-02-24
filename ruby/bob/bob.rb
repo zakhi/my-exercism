@@ -1,3 +1,13 @@
+class String
+  def contains_lowercase?
+    self[/[[:lower:]]/]
+  end
+
+  def contains_uppercase?
+    self[/[[:upper:]]/]
+  end
+end
+
 class Bob
 
   def hey(sentence)
@@ -16,7 +26,7 @@ private
   end
 
   def shout?(sentence)
-    sentence =~ /[[:upper:]]+/ && sentence !~ /[[:lower:]]+/
+    sentence.contains_uppercase? && ! sentence.contains_lowercase?
   end
 
   def question?(sentence)
