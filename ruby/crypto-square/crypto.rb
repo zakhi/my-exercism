@@ -4,11 +4,11 @@ class Crypto
   end
 
   def normalize_plaintext
-    @plain.scan(/\w|\d/).join.downcase
+    @normalized ||= @plain.scan(/[[:alnum:]]/).join.downcase
   end
 
   def size
-    Math.sqrt(normalize_plaintext.length).ceil
+    @size ||= Math.sqrt(normalize_plaintext.length).ceil
   end
 
   def plaintext_segments
@@ -16,8 +16,8 @@ class Crypto
   end
 
   def ciphertext
-    arrays = plaintext_segments.map { |segment| segment.ljust(size).chars }
-    arrays.transpose.join.delete(' ')
+    padded_segments = plaintext_segments.map { |segment| segment.ljust(size).chars }
+    padded_segments.transpose.join.delete(' ')
   end
 
   def normalize_ciphertext
