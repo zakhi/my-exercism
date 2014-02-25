@@ -4,13 +4,10 @@ class Sieve
   end
 
   def primes
-    numbers = [*2..@limit]
-    result = []
-
-    while current = numbers[0]
-      result << current
-      numbers.reject! { |n| n % current == 0 }
+    [*2..@limit].tap do |numbers|
+      numbers.each do |current|
+        numbers.reject! { |n| n > current && n % current == 0 }
+      end
     end
-    result
   end
 end
