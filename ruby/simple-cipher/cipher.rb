@@ -15,9 +15,7 @@ class Cipher
 
 private
   def validate(key)
-    key = generate if key.nil?
-    raise ArgumentError unless key =~ /^[[:lower:]]+$/
-    key
+    (key || generate)[/^[[:lower:]]+$/] or raise ArgumentError
   end
 
   def generate
