@@ -10,6 +10,10 @@ class RandomKeyCipherTest < MiniTest::Unit::TestCase
     assert_match(/[a-z]+/, @cipher.key)
   end
 
+  def test_cipher_key_is_different_each_time
+    refute_equal @cipher.key, Cipher.new.key
+  end
+
   # Here we take advantage of the fact that plaintext of "aaa..." doesn't outputs
   # the key. This is a critical problem with shift ciphers, some characters
   # will always output the key verbatim.

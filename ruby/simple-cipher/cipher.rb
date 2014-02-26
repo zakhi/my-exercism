@@ -21,7 +21,7 @@ private
   end
 
   def generate
-    "aaaaaaaaaaaaaaaaaaaa"
+    [*"a".."z"].sample(100).join
   end
 
   def construct(text)
