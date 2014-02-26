@@ -6,19 +6,14 @@ class Cipher
   end
 
   def encode(plain_text)
-    plain_text.chars.zip(key.chars).inject("") do |result, (text_char, key_char)|
-      result + encode_char(text_char, key_char)
-    end
+    construct(plain_text) { encode_shifts }
   end
 
   def decode(encrypted_text)
-    encrypted_text.chars.zip(key.chars).inject("") do |result, (text_char, key_char)|
-      result + decode_char(text_char, key_char)
-    end
+    construct(encrypted_text) { decode_shifts }
   end
 
 private
-
   def validate(key)
     key = generate if key.nil?
     raise ArgumentError unless key =~ /^[[:lower:]]+$/
@@ -29,12 +24,20 @@ private
     "aaaaaaaaaaaaaaaaaaaa"
   end
 
-  def encode_char(text_char, key_char)
-    ((position(text_char) + position(key_char)) % 26 + 97).chr
+  def construct(text)
+    text.chars.zip(yield).map { |char, shift| relative(char, shift) }.join
   end
 
-  def decode_char(text_char, key_char)
-    ((position(text_char) - position(key_char)) % 26 + 97).chr
+  def encode_shifts
+    @key.each_char.map { |c| position(c) }
+  end
+
+  def decode_shifts
+    encode_shifts.map { |i| -i }
+  end
+
+  def relative(char, shift)
+    ((position(char) + shift) % 26 + 97).chr
   end
 
   def position(char)
