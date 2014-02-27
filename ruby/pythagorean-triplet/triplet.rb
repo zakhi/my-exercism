@@ -22,7 +22,10 @@ class Triplet
   end
 
   def self.triplets(from, to)
-    [*from..to].permutation(3).map { |a, b, c| new(a, b, c) if a < b && b < c }.compact
+    [*from..to].permutation(2).map do |a, b| 
+      hypo = hypotenuse a, b if a < b
+      new(a, b, hypo) if hypo && hypo <= to
+    end.compact
   end
 
 private
@@ -31,6 +34,11 @@ private
 
   def sides
     [a, b, c]
+  end
+
+  def self.hypotenuse(a, b)
+    hypo = Math.sqrt(a ** 2 + b ** 2)
+    hypo.to_i if hypo.floor == hypo
   end
 
 end
