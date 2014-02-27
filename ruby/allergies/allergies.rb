@@ -13,17 +13,15 @@ class Allergies
 
 private
 
-  SUBSTANCES = { "eggs"         =>   1,
-                 "peanuts"      =>   2, 
-                 "shellfish"    =>   4, 
-                 "strawberries" =>   8,
-                 "tomatoes"     =>  16,
-                 "chocolate"    =>  32,
-                 "pollen"       =>  64,
-                 "cats"         => 128 }
+  substance_list = ["eggs", "peanuts", "shellfish", 
+                    "strawberries", "tomatoes", 
+                    "chocolate", "pollen", "cats"]
+
+  SUBSTANCES = Hash[substance_list.each_with_index.map do |substance, index|
+    [substance, 1 << index]
+  end]
 
   def substance_score(substance)
     SUBSTANCES[substance] || 0
   end
-
 end
