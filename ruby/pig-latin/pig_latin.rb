@@ -9,7 +9,7 @@ private
 
   def transform(word)
     prefix = prefix(word)
-    "#{word[prefix.length..-1]}#{prefix}ay"
+    "#{word.sub(prefix, '')}#{prefix}ay"
   end
 
   def prefix(word)
@@ -17,14 +17,16 @@ private
   end
 
   def long_prefix(word)
-    find_prefix word, "ch", "squ", "qu", "thr", "th", "sch"
+    word.find_prefix "ch", "squ", "qu", "thr", "th", "sch"
   end
 
   def ignored_prefix(word)
-    "" if find_prefix(word, "a", "e", "yt", "xr")
+    "" if word.find_prefix("a", "e", "yt", "xr")
   end
+end
 
-  def find_prefix(word, *prefixes)
-    prefixes.find { |prefix| word.start_with? prefix }
+class String
+  def find_prefix(*prefixes)
+    prefixes.find { |prefix| start_with? prefix }
   end
 end
