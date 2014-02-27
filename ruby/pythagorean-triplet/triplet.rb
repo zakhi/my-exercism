@@ -18,22 +18,20 @@ class Triplet
   end
 
   def pythagorean?
-    self if a ** 2 + b ** 2 == c ** 2
-  end
-
-  def self.triplets(from, to)
-    [*from..to].permutation(2).map do |a, b| 
-      hypo = hypotenuse a, b if a < b
-      new(a, b, hypo) if hypo && hypo <= to
-    end.compact
+    self if @a ** 2 + @b ** 2 == @c ** 2
   end
 
 private
 
-  attr_reader :a, :b, :c
-
   def sides
-    [a, b, c]
+    [@a, @b, @c]
+  end
+
+  def self.triplets(from, to)
+    [*from..to].permutation(2).each_with_object([]) do |(a, b), array| 
+      hypo = hypotenuse a, b if a < b
+      array << new(a, b, hypo) if hypo && hypo <= to
+    end
   end
 
   def self.hypotenuse(a, b)
