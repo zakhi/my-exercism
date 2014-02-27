@@ -17,11 +17,14 @@ private
   end
 
   def long_prefix(word)
-    ["ch", "squ", "qu", "thr", "th", "sch"].find { |prefix| word.start_with? prefix }
+    find_prefix word, "ch", "squ", "qu", "thr", "th", "sch"
   end
 
   def ignored_prefix(word)
-    "" if ["a", "e", "yt", "xr"].find { |prefix| word.start_with? prefix }
+    "" if find_prefix(word, "a", "e", "yt", "xr")
   end
 
+  def find_prefix(word, *prefixes)
+    prefixes.find { |prefix| word.start_with? prefix }
+  end
 end
