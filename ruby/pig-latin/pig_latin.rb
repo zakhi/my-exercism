@@ -17,11 +17,11 @@ private
   end
 
   def long_prefix(word)
-    word.find_prefix "ch", "squ", "qu", "thr", "th", "sch"
+    word.find_prefix *%w{ ch squ qu thr th sch }
   end
 
   def ignored_prefix(word)
-    "" if word.find_prefix("a", "e", "yt", "xr")
+    "" if word.find_prefix *%w{ a e i o u yt xr }
   end
 end
 

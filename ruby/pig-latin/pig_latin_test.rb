@@ -11,6 +11,18 @@ class PigLatinTest < MiniTest::Unit::TestCase
     assert_equal "earay", PigLatin.translate("ear")
   end
 
+  def test_other_word_beginning_i
+    assert_equal "ignoreay", PigLatin.translate("ignore")
+  end
+
+  def test_other_word_beginning_o
+    assert_equal "openay", PigLatin.translate("open")
+  end
+
+  def test_other_word_beginning_u
+    assert_equal "unsureay", PigLatin.translate("unsure")
+  end
+
   def test_word_beginning_with_p
     assert_equal "igpay", PigLatin.translate("pig")
   end
