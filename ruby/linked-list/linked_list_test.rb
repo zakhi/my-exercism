@@ -49,4 +49,34 @@ class DequeTest < MiniTest::Unit::TestCase
     assert_equal 30, deque.shift()
   end
 
+  def test_pop_all
+    deque = Deque.new
+    deque.push(10)
+    assert_equal 10, deque.pop
+    assert_nil deque.pop
+    assert_nil deque.pop
+  end
+
+  def test_shift_all
+    deque = Deque.new
+    deque.unshift(10)
+    assert_equal 10, deque.shift
+    assert_nil deque.shift
+    assert_nil deque.shift
+  end
+
+  def test_pop_all_and_shift
+    deque = Deque.new
+    deque.push(10)
+    assert_equal 10, deque.pop
+    assert_nil deque.shift
+  end
+
+  def test_shift_all_and_pop
+    deque = Deque.new
+    deque.unshift(10)
+    assert_equal 10, deque.shift
+    assert_nil deque.pop
+  end
+
 end
