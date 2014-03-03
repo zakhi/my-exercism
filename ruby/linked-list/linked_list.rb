@@ -1,25 +1,25 @@
 class Deque
-  def push(element)
-    self.last = Element.new(element, last, nil)
-    validate_first_object
+  def push(object)
+    self.last = Element.new(object, last, nil)
+    validate_first_element
   end
 
-  def unshift(element)
-    self.first = Element.new(element, nil, first)
-    validate_first_object
+  def unshift(object)
+    self.first = Element.new(object, nil, first)
+    validate_first_element
   end
 
   def pop
     element = last || NIL_ELEMENT
     self.last = element.prev 
-    validate_last_object
+    validate_last_element
     element.object
   end
 
   def shift
     element = first || NIL_ELEMENT
     self.first = element.next
-    validate_last_object
+    validate_last_element
     element.object
   end
 
@@ -41,13 +41,13 @@ private
     @last = new_last
   end
 
-  def validate_first_object
-    @first = @last if first.nil?
-    @last = @first if last.nil?
+  def validate_first_element
+    self.first = last if first.nil?
+    self.last = first if last.nil?
   end
 
-  def validate_last_object
-    @first = nil if last.nil?
-    @last = nil if first.nil?
+  def validate_last_element
+    self.first = nil if last.nil?
+    self.last = nil if first.nil?
   end
 end
