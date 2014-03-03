@@ -4,10 +4,12 @@ class WordProblem
   end
 
   def answer
-    @actions.inject(@first) { |result, action| result.send(action.first, action.last) }
+    @actions.inject(@first) { |result, action| result.send(action.operation, action.operand) }
   end
 
 private
+
+  Action = Struct.new(:operation, :operand)
 
   OPERATIONS = { "plus"          => :+,
                  "minus"         => :-,
@@ -15,17 +17,26 @@ private
                  "divided by"    => :/ }
 
   def analyze(question)
-    question[/^What is (-?\d+)(( (#{operations_expression}) (-?\d+))+)\?$/] or raise ArgumentError
-    first = $1.to_i
-
-    actions = $2.scan(/(#{operations_expression}) (-?\d+)/).map do |operation, operand| 
-      [OPERATIONS[operation], operand.to_i]
-    end
-    
-    [first, actions]
+    first, parts = scan_question(question)
+    [first, scan_parts(parts)]
   end
 
-  def operations_expression
-    OPERATIONS.keys.join "|"
+  def scan_question(question)
+    question.match /^What is #{number_regex}((#{operation_regex})+)\?$/ or raise ArgumentError
+    [$1.to_i, $2]    
+  end
+
+  def scan_parts(parts)
+    parts.scan(/#{operation_regex}/).map do |operation_word, operand| 
+      Action.new OPERATIONS[operation_word], operand.to_i
+    end
+  end
+
+  def operation_regex
+    / (#{OPERATIONS.keys.join "|"}) #{number_regex}/
+  end
+
+  def number_regex
+    /(-?\d+)/
   end
 end
