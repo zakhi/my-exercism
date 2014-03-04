@@ -5,7 +5,7 @@ class Hexadecimal
 
   def to_decimal
     hex_digits.each_with_index.reduce(0) do |sum, (digit, index)|
-      sum + digit.to_i * 16 ** index
+      sum + digit * 16 ** index
     end
   end
 
@@ -20,7 +20,7 @@ private
   end
   
   def from_numeric(numeric)
-    numeric[/\d/]
+    numeric.to_i if numeric[/\d/]
   end
 
   def from_letter(letter)
