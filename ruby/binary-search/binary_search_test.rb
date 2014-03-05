@@ -41,4 +41,16 @@ class BinarySearchTest < MiniTest::Unit::TestCase
     assert_equal 5, binary.search_for(21)
     assert_equal 6, binary.search_for(34)
   end
+
+  def test_it_raises_error_for_element_smaller_than_all_elements
+    assert_raises RuntimeError do
+      BinarySearch.new([2, 3, 4, 6, 8, 9, 11]).search_for(1)
+    end
+  end
+
+  def test_it_raises_error_for_element_larger_than_all_elements
+    assert_raises RuntimeError do
+      BinarySearch.new([2, 3, 4, 6, 8, 9, 11]).search_for(12)
+    end
+  end
 end

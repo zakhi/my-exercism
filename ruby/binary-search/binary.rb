@@ -1,21 +1,15 @@
 class BinarySearch
 
-  attr_reader :list 
+  attr_reader :list
 
   def initialize(list)
+    raise ArgumentError unless sorted? list
     @list = list.clone
-    validate 
   end
 
   def search_for(item)
     raise RuntimeError if list.empty?
-    if list[middle] > item
-      self.class.new(list[0, middle]).search_for(item)
-    elsif list[middle] < item
-      middle + 1 + self.class.new(list[(middle + 1)..-1]).search_for(item)
-    else
-      middle
-    end
+    find_on_left(item) || find_on_right(item) || middle
   end
 
   def middle
@@ -24,8 +18,32 @@ class BinarySearch
 
 private
 
-  def validate
-    raise ArgumentError if list.each_cons(2).any? { |a, b| a >= b }
+  def sorted?(list)
+    list.each_cons(2).all? { |a, b| a < b }
+  end
+
+  def find_on_left(item)
+    search(item, on_left) if middle_element > item
+  end
+
+  def find_on_right(item)
+    search(item, on_right) + middle + 1 if middle_element < item
+  end
+
+  def search(item, list)
+    self.class.new(list).search_for(item)
+  end
+
+  def middle_element
+    list[middle]
+  end
+
+  def on_left
+    list[0, middle]
+  end
+
+  def on_right
+    list[(middle + 1)..-1]
   end
 
 end
