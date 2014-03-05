@@ -2,12 +2,12 @@ class Gigasecond
 
   SECONDS_IN_DAY = 24 * 60 * 60
 
-  def initialize(date)
-    @date = date
+  def initialize(base_date)
+    @base_date = base_date
   end
 
   def date
-    @date + (10 ** 9 / SECONDS_IN_DAY)
+    @base_date + 10 ** 9 / SECONDS_IN_DAY
   end
 
 end
