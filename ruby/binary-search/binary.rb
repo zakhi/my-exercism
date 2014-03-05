@@ -13,7 +13,7 @@ class BinarySearch
   end
 
   def middle
-    list.length / 2
+    @middle ||= list.length / 2
   end
 
 private
