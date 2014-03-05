@@ -7,7 +7,7 @@ class Bst
   end
 
   def insert(new_data)
-    new_data <= data ? insert_left(new_data) : insert_right(new_data)
+    new_data > data ? insert_on(:right, new_data) : insert_on(:left, new_data)
   end
 
   def each(&block)
@@ -18,11 +18,8 @@ class Bst
 
 private
 
-  def insert_left(new_data)
-    @left ? @left.insert(new_data) : @left = self.class.new(new_data)
+  def insert_on(side, new_data)
+    send(side) ? send(side).insert(new_data) : instance_variable_set("@#{side}", self.class.new(new_data))
   end
 
-  def insert_right(new_data)
-    @right ? @right.insert(new_data) : @right = self.class.new(new_data)
-  end
 end
