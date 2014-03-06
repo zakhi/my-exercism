@@ -4,11 +4,11 @@ class Robot
   end
 
   def turn_right
-    @bearing_index = (@bearing_index + 1) % 4
+    @bearing_index = (@bearing_index + 1) % DIRECTIONS.length
   end
 
   def turn_left
-    @bearing_index = (@bearing_index - 1) % 4
+    @bearing_index = (@bearing_index - 1) % DIRECTIONS.length
   end
 
   def bearing
