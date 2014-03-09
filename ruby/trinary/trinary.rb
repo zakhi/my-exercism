@@ -5,15 +5,17 @@ class Trinary
 
   def to_decimal
     return 0 unless valid?
-    @number.chars.reverse.each_with_index.reduce(0) do |sum, (digit, index)|
-      sum + digit.to_i * (3 ** index)
-    end
+    digits.each_with_index.map { |digit, index| digit * (3 ** index) }.inject(:+)
   end
 
 private
 
   def valid?
-    @number[/^[012]+$/]
+    @number =~ /^[012]+$/
+  end
+
+  def digits
+    @number.chars.reverse.map { |digit| digit.to_i }
   end
 
 end
