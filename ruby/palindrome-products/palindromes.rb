@@ -1,12 +1,12 @@
 class Palindromes
   Palindrome = Struct.new(:value, :factors)
 
-  def initialize(max_factor: 99, min_factor: 1)
+  def initialize(max_factor:, min_factor: 1)
     @max, @min = max_factor, min_factor
   end
 
   def generate
-    [*@min..@max].repeated_combination(2) do |pair|
+    pairs.each do |pair|
       product = pair.reduce(:*)
       palindromes[product] << pair if palindrome? product
     end
@@ -22,9 +22,12 @@ class Palindromes
 
 private
 
+  def pairs
+    [*@min..@max].repeated_combination(2).lazy
+  end
+
   def palindrome?(number)
-    digits = number.to_s
-    0.upto(digits.length / 2).all? { |index| digits[index] == digits[-index-1] }
+    number.to_s == number.to_s.reverse
   end
 
   def palindromes
