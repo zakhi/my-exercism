@@ -4,21 +4,22 @@ class Triangle
   end
 
   def rows
-    1.upto(@row_count).each_with_object([]) do |row_number, rows|
-      rows << row(row_number)
+    [].tap do |rows|
+      @row_count.times { add_row rows }
     end
   end
 
 private
 
-  def row(number)
-    case number 
-    when 1 then [1]
-    else [1, *create(row(number - 1)) ,1]
-    end
+  def add_row(rows)
+    rows << (rows.empty? ? first_row : row_after(rows.last))
   end
 
-  def create(row)
-    row.each_cons(2).map { |a, b| a + b }
+  def first_row
+    [1]
+  end
+
+  def row_after(row)
+    [1, *row.each_cons(2).map { |a, b| a + b }, 1]
   end
 end
