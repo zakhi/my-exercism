@@ -4,15 +4,15 @@ class Triangle
   end
 
   def rows
-    [].tap do |rows|
-      @row_count.times { add_row rows }
+    [first_row].tap do |rows|
+      (@row_count - 1).times { add_row rows }
     end
   end
 
 private
 
   def add_row(rows)
-    rows << (rows.empty? ? first_row : row_after(rows.last))
+    rows << row_after(rows.last)
   end
 
   def first_row
