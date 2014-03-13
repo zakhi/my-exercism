@@ -13,6 +13,10 @@ class CustomSet
     to_a
   end
 
+  def to_ary
+    to_a
+  end
+
   def ==(other)
     other == elements
   end
