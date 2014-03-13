@@ -5,6 +5,14 @@ class CustomSet
     @elements = elements.to_a.uniq.sort
   end
 
+  def size
+    elements.size
+  end
+
+  def to_list
+    to_a
+  end
+
   def ==(other)
     other == elements
   end
@@ -13,48 +21,40 @@ class CustomSet
     elements.each(&block)
   end
 
+  def put(element)
+    create to_a << element
+  end
+
   def delete(element)
-    create reject { |e| e.eql? element }
+    create reject &equal(element)
   end
 
-  def difference(other)
-    create reject { |e| other.member? e }
+  def member?(element)
+    find &equal(element)
   end
 
-  def intersection(other)
-    create find_all { |e| other.member? e }
+  def subset?(other)
+    intersection(other) == other
   end
 
   def disjoint?(other)
     intersection(other) == empty
   end
 
-  def empty
-    create
+  def difference(other)
+    create reject &members_of(other)
   end
 
-  def member?(element)
-    find { |e| e.eql? element }
-  end
-
-  def put(element)
-    create elements.clone << element
-  end
-
-  def size
-    elements.size
-  end
-
-  def subset?(other)
-    other.all? { |e| self.member? e }
-  end
-
-  def to_list
-    to_a
+  def intersection(other)
+    create find_all &members_of(other)
   end
 
   def union(other)
-    create elements.clone.push(*other.to_a)
+    create to_a.push(*other.to_a)
+  end
+
+  def empty
+    create
   end
 
 private 
@@ -62,6 +62,14 @@ private
 
   def create(elements = [])
     self.class.new elements
+  end
+
+  def equal(element)
+    lambda { |e| e.eql? element }
+  end
+
+  def members_of(other)
+    lambda { |e| other.member? e }
   end
 
 end
