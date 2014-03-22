@@ -1,15 +1,9 @@
 class Queens
+  attr_reader :white, :black
+
   def initialize(white: [0, 3], black: [7, 3])
     raise ArgumentError if white == black
-    @white, @black = white, black
-  end
-
-  def white
-    @white
-  end
-
-  def black
-    @black
+    @white, @black = [white,black].map { |o| o.extend(Positioned) }
   end
 
   def attack?
@@ -17,35 +11,45 @@ class Queens
   end
 
   def to_s
-    (0..7).map do |row|
-      (0..7).map do |column|
-        cell row, column
-      end.join " " 
-    end.join "\n"
+    rows.join "\n"
   end
 
 private
+  module Positioned
+    def row
+      self[0]
+    end
+
+    def column
+      self[1]
+    end
+  end
+
   def same_row?
-    @white[0] == @black[0]
+    white.row == black.row
   end
 
   def same_column?
-    @white[1] == @black[1]
+    white.column == black.column
   end
 
   def diagonal?
-    (@white[0] - @black[0]).abs == (@white[1] - @black[1]).abs
+    (white.row - black.row).abs == (white.column - black.column).abs
+  end
+
+  def rows
+    (0..7).map { |row| cells_in(row).join " " }
+  end
+
+  def cells_in(row)
+    (0..7).map { |column| cell row, column }
   end
 
   def cell(*position)
-    white_queen_cell(position) || black_queen_cell(position) || "O"
-  end
-
-  def white_queen_cell(position)
-    "W" if @white == position
-  end
-
-  def black_queen_cell(position)
-    "B" if @black == position
+    case position
+    when white then "W"
+    when black then "B"
+    else "O"
+    end
   end
 end
