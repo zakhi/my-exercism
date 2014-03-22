@@ -3,11 +3,11 @@ class Queens
 
   def initialize(white: [0, 3], black: [7, 3])
     raise ArgumentError if white == black
-    @white, @black = [white,black].map { |o| o.extend(Positioned) }
+    @white, @black = [white,black].map { |o| o.extend Positioned }
   end
 
   def attack?
-    same_row? || same_column? || diagonal?
+    same_row? || same_column? || same_diagonal?
   end
 
   def to_s
@@ -33,7 +33,7 @@ private
     white.column == black.column
   end
 
-  def diagonal?
+  def same_diagonal?
     (white.row - black.row).abs == (white.column - black.column).abs
   end
 
