@@ -2,19 +2,21 @@ class Matrix
   attr_reader :rows
 
   def initialize(matrix)
-    @rows = matrix.lines.map { |row| row.split(" ").map(&:to_i) }
+    @rows = matrix.lines.map { |row| row.split.map(&:to_i) }
   end
 
   def columns
-    rows.transpose
+    @columns ||= rows.transpose
   end
 
   def saddle_points
-    [].tap do |result|
+    [].tap do |saddles|
       rows.each_with_index do |row, i|
-        j = row.find_index(row.max)
-        result << [i, j] if columns[j].min == row.max
+        max = row.max
+        j = row.find_index(max)
+        saddles << [i, j] if columns[j].min == max
       end
     end
   end
+
 end
